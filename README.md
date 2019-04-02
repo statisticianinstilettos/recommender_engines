@@ -9,7 +9,7 @@ Will contain recommender classes the following models:
 - People also purchase - Collaborative Filtering (solved via matrix decomposition by gradient descent) and Deep Collaborative Filtering.
 - You may also like - Factorization Machines
 - Pairs well with - association rules, Deep outfits. 
-- Describe what you are looking for bot - Information retrieval (cosine sim with document embeddings. take in any type of document embeddings) (This is the same as content)
+- Describe what you are looking for bot - Information retrieval (cosine sim with document embeddings. take in any type of document embeddings) (This is the same as content, but it uses sentiment)
 
 Support functions
 - various methods for document embeddings (doc2vec, lsa)
