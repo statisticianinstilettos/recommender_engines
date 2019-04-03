@@ -23,7 +23,7 @@ class ContentRecommender(object):
     @staticmethod
     def _choose_similarity(item_vector, feature_matrix, similarity_metric):
         '''calculate similarity scores based on specified metric.'''
-        
+
         if similarity_metric == "cosine":
             similarities = 1 - pairwise_distances(X=feature_matrix, Y=item_vector, metric="cosine")
         elif similarity_metric == "euclidean":
