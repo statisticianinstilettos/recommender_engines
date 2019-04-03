@@ -1,0 +1,7 @@
+
+.ipynb_checkpoints
+.DS_Store
+venv/
+
+# Compiled python modules.
+*.pyc
