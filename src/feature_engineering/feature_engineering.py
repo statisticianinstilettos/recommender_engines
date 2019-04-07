@@ -11,11 +11,14 @@ from sklearn.decomposition import TruncatedSVD
 import pickle
 
 
-class FeatureEngineering(object):
+class Embeddings(object):
 
-    def lsa(self, df):
+    def lsa(self, df, path_to_models, n_components, max_df=1.0, min_df=1, max_features=None, ngram_range=(1, 1)):
         ''' Get LDA embeddings from text data. Trains and saves LSA model.'''
-        return df
+        tfidf_matrix = self.tfidf(df, path_to_models, max_df=1.0, min_df=1, max_features=None, ngram_range=(1, 1))
+        lsa_matrix = self.svd(tfidf_matrix, n_components, path_to_models)
+        return lsa_matrix
+        
 
     def tfidf(self, df, path_to_models, max_df=1.0, min_df=1, max_features=None, ngram_range=(1, 1)):
         '''Get tfidf matrix from text data. Trains and saves tfidf model.'''
@@ -88,7 +91,10 @@ class FeatureEngineering(object):
         keep_features = feature_names[feature_names.isin(keep_values)]
 
         return ohe_feature[keep_features]
+    
 
+class DataCleaning(object):
+    
     def stem_words(self, text):
         text = text.split()
         stemmer = SnowballStemmer('english')

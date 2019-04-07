@@ -1,2 +1,3 @@
 from .content_filtering.content_filtering import ContentRecommender
-from .feature_engineering.feature_engineering import FeatureFngineering
+from .feature_engineering.feature_engineering import DataCleaning
+from .feature_engineering.feature_engineering import Embeddings
