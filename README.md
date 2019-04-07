@@ -1,6 +1,9 @@
 # recommender_engines
 A private libary for freelance data science work. These classes can be used to train and deploy user-item recommendations using client provided data. 
 
+![](https://media.giphy.com/media/CIJsP7PsWvZM4/giphy.gif)
+
+
 Contains recommender classes the following models:
 
 - "Similar items" - Content Filtering via matrix factorization. Takes in tabular features, and/or latent embeddings. 
