@@ -7,6 +7,7 @@ from nltk.corpus import stopwords
 from nltk.stem import SnowballStemmer
 from nltk.tokenize import RegexpTokenizer
 from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.feature_extraction.text CountVectorizer
 from sklearn.decomposition import TruncatedSVD
 import pickle
 
@@ -20,7 +21,7 @@ class Embeddings(object):
         return lsa_matrix
         
 
-    def tfidf(self, df, path_to_models, max_df=1.0, min_df=1, max_features=None, ngram_range=(1, 1)):
+    def tfidf_vectorizer(self, series, path_to_models, max_df=1.0, min_df=1, max_features=None, ngram_range=(1, 1)):
         '''Get tfidf matrix from text data. Trains and saves tfidf model.'''
 
         # initialize and fit model, transform input data
@@ -31,21 +32,34 @@ class Embeddings(object):
                              ngram_range=ngram_range,
                              stop_words='english')
 
-        tf.fit(df['document'])
+        tf.fit(series)
 
         # save trained model for future use
         pickle.dump(tf, open(path_to_models + "/tfidf_model.pkl", "wb"))
 
         # transform and return input data
-        tfidf_matrix = tf.transform(df['document'])
+        tfidf_matrix = tf.transform(series)
         tfidf_matrix = pd.DataFrame(tfidf_matrix.toarray())
         tfidf_matrix.columns = tf.get_feature_names()
 
         return tfidf_matrix
 
-    def count_vectorizor(self, df):
+    def count_vectorizer(self, series, path_to_models, max_df=1.0, min_df=1, max_features=None, ngram_range=(1, 1)):
         '''Get word count matrix from text data, Trains and saves cv model.'''
-        return df
+
+        cv = CountVectorizer(max_df=max_df, min_df=min_df, max_features=max_features, ngram_range=ngram_range)
+
+        cv = cv.fit(series)
+
+        # save trained model for future use
+        pickle.dump(tf, open(path_to_models + "/count_model.pkl", "wb"))
+
+        # transform and return input data
+        count_matrix = cv.transform(series)
+        count_matrix = pd.DataFrame(count_matrix.toarray())
+        count_matrix.columns = cv.get_feature_names()
+
+        return count_matrix
 
     def pca(self, df):
         '''Perform pca on feature matrix. Can be used for dimensionality reduction, smoothing, or creating plot axes. Trains and saves pca model.'''
