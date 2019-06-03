@@ -1,5 +1,5 @@
 # recommender_engines
-A private libary for freelance data science work. These classes can be used to train and deploy recommendations using client provided data. 
+A private libary for training all kinds of recommender systems.
 
 ![](https://media.giphy.com/media/CIJsP7PsWvZM4/giphy.gif)
 
