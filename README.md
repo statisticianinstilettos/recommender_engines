@@ -8,6 +8,7 @@ Contains recommender classes the following models:
 
 - Content Filtering via matrix factorization. Takes in tabular features, and/or latent embeddings. 
 - User-based and Item-based Collaborative Filtering
+  * Nearest neighbors approach
   * Matrix decomposition by gradient descent
   * Nonnegative matrix factroization
   * Probabalistic Matrix Factorization
