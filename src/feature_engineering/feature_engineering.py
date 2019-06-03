@@ -7,135 +7,194 @@ from nltk.corpus import stopwords
 from nltk.stem import SnowballStemmer
 from nltk.tokenize import RegexpTokenizer
 from sklearn.feature_extraction.text import TfidfVectorizer
-from sklearn.feature_extraction.text CountVectorizer
+from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.decomposition import TruncatedSVD
-import pickle
+from sklearn.decomposition import PCA
+from gensim.models import doc2vec
+from gensim.models.ldamodel import LdaModel
+from gensim import corpora
+from nltk.util import ngrams
+
 
 
 class Embeddings(object):
 
-    def lsa(self, df, path_to_models, n_components, max_df=1.0, min_df=1, max_features=None, ngram_range=(1, 1)):
-        ''' Get LDA embeddings from text data. Trains and saves LSA model.'''
-        tfidf_matrix = self.tfidf(df, path_to_models, max_df=1.0, min_df=1, max_features=None, ngram_range=(1, 1))
-        lsa_matrix = self.svd(tfidf_matrix, n_components, path_to_models)
-        return lsa_matrix
+    def lsa(document, n_components, max_df=1.0, min_df=1, max_features=None, ngram_range=(1, 1)):
+        ''' Get LSA embeddings from text document. '''
         
-
-    def tfidf_vectorizer(self, series, path_to_models, max_df=1.0, min_df=1, max_features=None, ngram_range=(1, 1)):
-        '''Get tfidf matrix from text data. Trains and saves tfidf model.'''
-
-        # initialize and fit model, transform input data
+        # initialize and fit tfidf model
         tf = TfidfVectorizer(analyzer='word',
                              max_df=max_df,
                              min_df=min_df,
                              max_features=max_features,
                              ngram_range=ngram_range,
                              stop_words='english')
+        tfidf_matrix = tf.fit_transform(document)
 
-        tf.fit(series)
-
-        # save trained model for future use
-        pickle.dump(tf, open(path_to_models + "/tfidf_model.pkl", "wb"))
+        # initialize and fit svd model
+        # initialize and train svd model
+        tsvd = TruncatedSVD(n_components=n_components)
+        svd_matrix = tsvd.fit_transform(tfidf_matrix)
 
         # transform and return input data
-        tfidf_matrix = tf.transform(series)
+        lsa_matrix = pd.DataFrame(svd_matrix)
+        lsa_matrix.columns = ["lsa_" + str(s) for s in np.arange(0, n_components)]
+        return lsa_matrix, tf, tsvd
+        
+
+    def tfidf_vectorizer(document, max_df=1.0, min_df=1, max_features=None, ngram_range=(1, 1)):
+        '''Get tfidf matrix from text document.'''
+
+        # initialize and fit model
+        tf = TfidfVectorizer(analyzer='word',
+                             max_df=max_df,
+                             min_df=min_df,
+                             max_features=max_features,
+                             ngram_range=ngram_range,
+                             stop_words='english')
+        tf.fit(document)
+
+        # transform and return input data
+        tfidf_matrix = tf.transform(document)
         tfidf_matrix = pd.DataFrame(tfidf_matrix.toarray())
         tfidf_matrix.columns = tf.get_feature_names()
 
-        return tfidf_matrix
+        return tfidf_matrix, tf
+    
 
-    def count_vectorizer(self, series, path_to_models, max_df=1.0, min_df=1, max_features=None, ngram_range=(1, 1)):
-        '''Get word count matrix from text data, Trains and saves cv model.'''
-
+    def count_vectorizer(document, max_df=1.0, min_df=1, max_features=None, ngram_range=(1, 1)):
+        '''Get count matrix from text document. 
+        Can also be used to one hot encode categorical data'''
+        
+        # initialize and fit model
         cv = CountVectorizer(max_df=max_df, min_df=min_df, max_features=max_features, ngram_range=ngram_range)
-
-        cv = cv.fit(series)
-
-        # save trained model for future use
-        pickle.dump(tf, open(path_to_models + "/count_model.pkl", "wb"))
+        cv = cv.fit(document)
 
         # transform and return input data
-        count_matrix = cv.transform(series)
+        count_matrix = cv.transform(document)
         count_matrix = pd.DataFrame(count_matrix.toarray())
         count_matrix.columns = cv.get_feature_names()
 
-        return count_matrix
+        return count_matrix, cv
 
-    def pca(self, df):
-        '''Perform pca on feature matrix. Can be used for dimensionality reduction, smoothing, or creating plot axes. Trains and saves pca model.'''
-        return df
+    def pca(X, n_components):
+        '''Perform PCA on feature matrix X. 
+        Can be used for feature engineering, dimensionality reduction, smoothing, or creating plot axes.'''
 
-    def svd(self, df, n_components, path_to_models):
-        '''Perform svd on feature matrix. Can be used for dimensionality reduction, smoothing, or creating plot axes. Trains and saves svd model.'''
+        # initialize and fit model
+        pca = PCA(n_components=n_components)
+        pca = pca.fit(X)
+
+        # transform and return input data
+        pca_matrix = pca.transform(X)
+        pca_matrix = pd.DataFrame(pca_matrix)
+        pca_matrix.columns = ["pca_" + str(s) for s in np.arange(0, n_components)]
+
+        return pca_matrix, pca
+
+
+    def svd(X, n_components):
+        '''Perform SVD on feature matrix X. 
+        Can be used for feature engineering, dimensionality reduction, smoothing, or creating plot axes.'''
 
         # initialize and train svd model
         tsvd = TruncatedSVD(n_components=n_components)
-        tsvd = tsvd.fit(df)
-
-        # save trained model for future use
-        pickle.dump(tsvd, open(path_to_models + "/svd_model.pkl", "wb"))
+        tsvd = tsvd.fit(X)
 
         # transform and return input data
-        latent_matrix = tsvd.transform(df)
+        latent_matrix = tsvd.transform(X)
         latent_matrix = pd.DataFrame(latent_matrix)
         latent_matrix.columns = ["svd_" + str(s) for s in np.arange(0, n_components)]
 
-        return latent_matrix
+        return latent_matrix, tsvd
+    
 
-    def doc2vec(self, df):
-        '''Use doc2vec to create document embeddings'''
-        return df
+    def doc_to_vec(document, vector_size, min_count=0, epochs=3, seed=0, window=3, dm=1):
+        '''Use doc2vec to create document embeddings from text document.'''
 
-    def lda(self, df):
+        # format data
+        doc_list = []
+        for i in range(len(document)):
+            mystr = document[i]
+            doc_list.append(re.sub("[^\w]", " ",  mystr).split())   
+        formatted_documents = [doc2vec.TaggedDocument(doc, [i]) for i, doc in enumerate(doc_list)]
+
+        # initialize and train doc2vec model
+        model = doc2vec.Doc2Vec(vector_size=vector_size,
+                                min_count=min_count,
+                                epochs=epochs,
+                                seed=seed,
+                                window=window,
+                                dm=dm)
+        model.build_vocab(formatted_documents)
+        model.train(formatted_documents, total_examples=model.corpus_count, epochs=model.epochs)
+
+        # transform and return input data
+        docvec_matrix = pd.DataFrame(model.docvecs.vectors_docs)
+        docvec_matrix.columns = ["docvec_" + str(s) for s in np.arange(0, vector_size)]
+
+        return docvec_matrix, model
+
+    def lda(document, ntopics, n=2):
         '''Use LDA to create document embeddings'''
-        return ds
 
-    def ohe_features(self, df, feature, frequency_threshold):
-        '''
-        One-hot-encode a categorical feature into binary columns.
-        df: pandas data frame with feature to be encoded
-        feature: str. feature column name
-        frequency_threshold: number of occurrences to threshold feature at.
-        '''
-        vc = df[feature].value_counts()
-        keep_values = vc[vc > frequency_threshold].index.tolist()
-        ohe_feature = pd.get_dummies(df[feature])
+        # make list of docs  with n-grams
+        docs = document.str.split()
+        for i in range(len(docs)):
+            docs[i] = docs[i] + ["_".join(w) for w in ngrams(docs[i], n)]
 
-        feature_names = ohe_feature.columns
-        keep_features = feature_names[feature_names.isin(keep_values)]
+        # make dictionary of bow document terms
+        dictionary = corpora.Dictionary(docs)
+        doc_term_matrix = [dictionary.doc2bow(doc) for doc in docs]
 
-        return ohe_feature[keep_features]
+        # initialize and train lda model
+        ldamodel = LdaModel(corpus=doc_term_matrix,
+                            id2word=dictionary,
+                            num_topics=ntopics, 
+                            random_state=0)
+
+        # transform and return input data
+        lda_matrix = pd.DataFrame()
+        for doc in docs:
+            bow = ldamodel.id2word.doc2bow(doc)
+            pred = np.round(ldamodel.get_document_topics(bow=bow,  minimum_probability=0), 4)
+            pred = pd.DataFrame(pred)
+            lda_matrix = lda_matrix.append(pred[1])
+        lda_matrix.reset_index(drop=True, inplace=True)
+        lda_matrix.columns = ["lda_" + str(s) for s in np.arange(0, ntopics)]
+
+        return lda_matrix, ldamodel
     
 
 class DataCleaning(object):
     
-    def stem_words(self, text):
+    def stem_words(text):
         text = text.split()
         stemmer = SnowballStemmer('english')
         stemmed_words = [stemmer.stem(word) for word in text]
         text = " ".join(stemmed_words)
         return text
 
-    def make_lower_case(self, text):
+    def make_lower_case(text):
         return text.lower()
 
-    def remove_stop_words(self, text):
+    def remove_stop_words(text):
         text = text.split()
         stops = set(stopwords.words("english"))
         text = [w for w in text if not w in stops]
         text = " ".join(text)
         return text
 
-    def remove_punctuation(self, text):
+    def remove_punctuation(text):
         tokenizer = RegexpTokenizer(r'\w+')
         text = tokenizer.tokenize(text)
         text = " ".join(text)
         return text
 
-    def remove_emails(self, text):
+    def remove_emails(text):
         string_no_emails = re.sub("\S*@\S*\s?", "", text)
         return (string_no_emails)
 
-    def remove_numbers(self, text):
+    def remove_numbers(text):
         string_no_numbers = re.sub("\d+", "", text)
         return (string_no_numbers)
