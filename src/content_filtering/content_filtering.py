@@ -5,7 +5,7 @@ from sklearn.metrics import pairwise_distances
 
 class ContentRecommender(object):
 
-    def get_similar_recommendations(self, seed_item, feature_matrix, similarity_metric, n):
+    def predict(self, seed_item, feature_matrix, similarity_metric, n):
         ''' Return top n similar items to a seed item '''
 
         if similarity_metric not in ["cosine", "euclidean", "manhattan", "jaccard"]:
