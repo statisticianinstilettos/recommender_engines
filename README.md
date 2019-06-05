@@ -14,6 +14,7 @@ Contains recommender classes the following models:
   * Probabalistic Matrix Factorization
   * Deep Collaborative Filtering with autoencoders
 - Factorization Machines
+- Deep Hybrid Recommender system
 - Association rules
 - Deep outfits. ("pairs well with")
 - "Describe what you are looking" for bot - Information retrieval (cosine sim with document embeddings. take in any type of document embeddings) (This is the same as content, but it uses sentiment)
