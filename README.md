@@ -4,7 +4,7 @@ A private libary for training all kinds of recommender systems.
 ![](https://media.giphy.com/media/CIJsP7PsWvZM4/giphy.gif)
 
 
-Contains recommender classes the following models:
+Contains recommender classes with fit and predict methods. 
 
 Containes:
 - Content Filtering
