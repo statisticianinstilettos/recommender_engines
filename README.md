@@ -1,7 +1,7 @@
 # recommender_engines
 A private libary for training all kinds of recommender systems. Contains recommender classes with fit and predict methods. 
 
-Containes:
+Contains:
 - Content Filtering
 - Factorization Machines
 - Feature Engineering (various methods for creating feature embedding vectors)
