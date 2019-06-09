@@ -7,6 +7,7 @@ Contains:
 - Feature Engineering (various methods for creating feature embedding vectors)
 
 Coming soon:
+- Deep Factorization Machines
 - User-based and Item-based Collaborative Filtering
   * Nearest neighbors approach
   * Matrix decomposition by gradient descent
