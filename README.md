@@ -1,10 +1,5 @@
 # recommender_engines
-A private libary for training all kinds of recommender systems.
-
-![](https://media.giphy.com/media/CIJsP7PsWvZM4/giphy.gif)
-
-
-Contains recommender classes with fit and predict methods. 
+A private libary for training all kinds of recommender systems. Contains recommender classes with fit and predict methods. 
 
 Containes:
 - Content Filtering
@@ -25,3 +20,6 @@ Coming soon:
 - LDA recommender system
 - Multi Armed Bandit and bayesian MAB Recommender
  - Q learning recommender
+ 
+ 
+![](https://media.giphy.com/media/CIJsP7PsWvZM4/giphy.gif)
