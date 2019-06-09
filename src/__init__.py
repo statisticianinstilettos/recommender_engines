@@ -1,3 +1,5 @@
-from .content_filtering.content_filtering import ContentRecommender
 from .feature_engineering.feature_engineering import DataCleaning
 from .feature_engineering.feature_engineering import Embeddings
+from .content_filtering.content_filtering import ContentRecommender
+from .factorization_machines.factorization_machines import TrainFactorizationMachines
+from .factorization_machines.factorization_machines import FactorizationMachinesPrediction

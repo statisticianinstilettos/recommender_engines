@@ -5,8 +5,10 @@ boto3==1.9.159
 botocore==1.12.159
 certifi==2019.3.9
 chardet==3.0.4
+Cython==0.29.10
 decorator==4.4.0
 docutils==0.14
+fastFM==0.2.11
 gensim==3.7.3
 idna==2.8
 ipykernel==5.1.0

@@ -6,7 +6,14 @@ from sklearn.metrics import pairwise_distances
 class ContentRecommender(object):
 
     def predict(self, seed_item, feature_matrix, similarity_metric, n):
-        ''' Return top n similar items to a seed item '''
+        ''' Return top n similar items to a seed item.
+         Args:
+            seed_item: seed item id.
+            feature_matrix: matrix with items as rows and features as columns.
+            similarity_metric: "cosine", "euclidean", "manhattan", or "jaccard".
+            n: number of similar items to return.
+        Returns: predictions in json format.
+        '''
 
         if similarity_metric not in ["cosine", "euclidean", "manhattan", "jaccard"]:
             return ValueError("similarity_metric must be cosine, euclidean, manhattan, or jaccard")
