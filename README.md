@@ -6,14 +6,18 @@ A private libary for training all kinds of recommender systems.
 
 Contains recommender classes the following models:
 
-- Content Filtering via matrix factorization. Takes in tabular features, and/or latent embeddings. 
+Containes:
+- Content Filtering
+- Factorization Machines
+- Feature Engineering (various methods for creating feature embedding vectors)
+
+Coming soon:
 - User-based and Item-based Collaborative Filtering
   * Nearest neighbors approach
   * Matrix decomposition by gradient descent
   * Nonnegative matrix factroization
   * Probabalistic Matrix Factorization
   * Deep Collaborative Filtering with autoencoders
-- Factorization Machines
 - Deep Hybrid Recommender system
 - Association rules
 - Deep outfits. ("pairs well with")
@@ -21,6 +25,3 @@ Contains recommender classes the following models:
 - LDA recommender system
 - Multi Armed Bandit and bayesian MAB Recommender
  - Q learning recommender
-
-Support functions
-- various methods for document embeddings (doc2vec, lsa, autoencoders)
