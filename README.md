@@ -7,7 +7,8 @@ Contains:
 - Feature Engineering (various methods for creating feature embedding vectors)
 
 Coming soon:
-- Deep Factorization Machines
+- Deep Factorization Machines (a Deep Hybrid Recommender system)
+- Feature Engineering - VAE in pytorch 
 - User-based and Item-based Collaborative Filtering
   * Nearest neighbors approach
   * Matrix decomposition by gradient descent
