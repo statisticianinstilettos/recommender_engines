@@ -1,5 +1,13 @@
 from .feature_engineering.feature_engineering import DataCleaning
 from .feature_engineering.feature_engineering import Embeddings
+
 from .content_filtering.content_filtering import ContentRecommender
+
 from .factorization_machines.factorization_machines import TrainFactorizationMachines
 from .factorization_machines.factorization_machines import FactorizationMachinesPrediction
+
+from .reinforcement_learning.multiarmed_bandits import MultiArmedBandit
+from .reinforcement_learning.multiarmed_bandits import GreedyBandit
+from .reinforcement_learning.multiarmed_bandits import OptimisticBandit
+from .reinforcement_learning.multiarmed_bandits import UCB1Bandit
+from .reinforcement_learning.multiarmed_bandits import BayesianBandit
