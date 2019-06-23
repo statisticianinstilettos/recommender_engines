@@ -9,7 +9,7 @@ Contains:
 Coming soon:
 - Deep Factorization Machines (a Deep Hybrid Recommender system similar to the FM)
 - Feature Engineering - VAE in pytorch 
-_ Deep Hybrid Recommender system using Vampire
+- Deep Hybrid Recommender system using Vampire
 
 - User-based and Item-based Collaborative Filtering
   * Nearest neighbors approach
