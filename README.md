@@ -1,5 +1,5 @@
 # recommender_engines
-A private libary for training all kinds of recommender systems. 
+A personal libary for training all kinds of recommender systems. 
 Contains:
 - Content Filtering
 - Factorization Machines
