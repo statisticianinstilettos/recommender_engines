@@ -4,7 +4,7 @@ Contains:
 - Content Filtering
 - Factorization Machines
 - Feature Engineering (various methods for creating feature embedding vectors)
-- Reinforcement Learning (Multi-Armed Bandits and Bayesian Multi-Armed Bandits)
+- Reinforcement Learning (Multi-Armed Bandits)
 
 Coming soon:
 - Factorization Machines in pytorch 
