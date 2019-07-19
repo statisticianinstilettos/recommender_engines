@@ -11,3 +11,6 @@ from .reinforcement_learning.multiarmed_bandits import GreedyBandit
 from .reinforcement_learning.multiarmed_bandits import OptimisticBandit
 from .reinforcement_learning.multiarmed_bandits import UCB1Bandit
 from .reinforcement_learning.multiarmed_bandits import BayesianBandit
+
+from .ab_testing.ab_testing import HypothesisTests
+from .ab_testing.ab_testing import TwoPorportionsTest
