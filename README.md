@@ -1,5 +1,6 @@
 # recommender_engines
-A personal libary for training all kinds of recommender systems. 
+A personal collection of code for training all kinds of recommender systems that I may want to use again. Some code is from courses, some hand written. 
+
 Contains:
 - Content Filtering
 - Factorization Machines
