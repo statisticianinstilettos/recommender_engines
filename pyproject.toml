@@ -6,9 +6,29 @@ authors = ["Your Name <you@example.com>"]
 
 [tool.poetry.dependencies]
 python = "^3.8"
-ipykernel = "^6.9.0"
+ipykernel = "5.1.0"
+appnope = "0.1.0"
+backcall = "0.1.0"
+boto = "2.49.0"
+boto3 = "1.9.159"
+botocore = "1.12.159"
+certifi = "2019.3.9"
+chardet = "3.0.4"
+decorator = "4.4.0"
+docutils = "0.14"
+idna = "2.8"
+ipython = "7.4.0"
+ipython_genutils = "0.2.0"
+jedi = "0.13.3"
+jmespath = "0.9.4"
+jupyter-client = "5.2.4"
+jupyter-core = "4.4.0"
+pandas = "^1.4.1"
+requests = "^2.27.1"
+matplotlib = "^3.5.1"
 
 [tool.poetry.dev-dependencies]
+jupyter = "^1.0.0"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
